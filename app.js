@@ -1,10 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-
-dotenv.config();
+const encrypt = require('mongoose-encryption');
 
 const app = express();
 
@@ -16,10 +15,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(process.env.MONGODB_URI);
 
-const userSchema = {
+const userSchema = new mongoose.Schema({
     email: String,
     password: String
-}
+});
+
+userSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ['password']});
 
 const User = new mongoose.model('User', userSchema);
 
