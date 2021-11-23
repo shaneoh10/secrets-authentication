@@ -1,0 +1,1 @@
+Website built with Node.js and MongoDB to demonstrate user authentication and security techniques.
